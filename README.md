@@ -11,6 +11,15 @@
 
 Este proyecto implementa un **Dashboard de Gestión de Tareas de Alto Rendimiento** diseñado bajo la arquitectura de componentes funcionales en React. La aplicación resuelve problemáticas reales de sincronización de estado, fugas de memoria, optimización del árbol de renderizado y desacoplamiento de la lógica de negocio mediante el uso estratégico de Hooks.
 
+### Novedades y Componentes Visuales:
+- **Gráficos reactivos en SVG y CSS:**
+  - *Donut Chart* interactivo que ilustra la tasa de finalización global.
+  - Gráfico de barras de distribución porcentual por categorías (Desarrollo, Diseño, Estudio, QA).
+  - Matriz de balance de prioridades (Alta, Media, Baja).
+- **Herramientas de Profiling integradas:**
+  - Generador de lotes masivos (+15 tareas) con un clic para medir el impacto de `useMemo` y `useCallback` en React DevTools Profiler.
+  - Botón de restauración de datos demo iniciales.
+
 ---
 
 ## 2. Diagrama de Flujo de Estado y Ciclo de Render
