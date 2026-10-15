@@ -5,7 +5,8 @@ import TaskList from './components/TaskList'
 import TaskForm from './components/TaskForm'
 import TaskFilterControls from './components/TaskFilterControls'
 import TaskStats from './components/TaskStats'
-import { Sun, Moon, Layers, ShieldCheck, Cpu } from 'lucide-react'
+import TaskCharts from './components/TaskCharts'
+import { Sun, Moon, Layers, ShieldCheck, Cpu, RotateCcw, Zap, BarChart2 } from 'lucide-react'
 
 // Inicializador perezoso para useReducer leyendo de localStorage
 const initReducerState = (initial) => {
@@ -15,7 +16,7 @@ const initReducerState = (initial) => {
       const parsed = JSON.parse(stored)
       return {
         ...initial,
-        items: Array.isArray(parsed) ? parsed : initial.items,
+        items: Array.isArray(parsed) && parsed.length > 0 ? parsed : initial.items,
       }
     }
   } catch (err) {
@@ -72,6 +73,14 @@ const Dashboard = () => {
 
   const handleClearCompleted = useCallback(() => {
     dispatch({ type: TASK_ACTIONS.CLEAR_COMPLETED })
+  }, [])
+
+  const handleResetDemoData = useCallback(() => {
+    dispatch({ type: TASK_ACTIONS.RESET_MOCK_DATA })
+  }, [])
+
+  const handleGenerateBatch = useCallback(() => {
+    dispatch({ type: TASK_ACTIONS.GENERATE_BATCH_TASKS, payload: 15 })
   }, [])
 
   const totalCompleted = state.items.filter((t) => t.completed).length
@@ -134,8 +143,39 @@ const Dashboard = () => {
       <main className="dashboard-content">
         {activeTab === 'tasks' ? (
           <div className="tasks-layout">
-            {/* Métricas y Estadísticas */}
+            {/* Barra de utilidades superiores */}
+            <div className="dashboard-banner-actions">
+              <div className="banner-title-area">
+                <BarChart2 size={20} className="text-accent" />
+                <span>Métricas y Análisis de Rendimiento en Tiempo Real</span>
+              </div>
+              <div className="banner-buttons">
+                <button
+                  type="button"
+                  className="btn-ghost-sm"
+                  onClick={handleResetDemoData}
+                  title="Restablecer las tareas de ejemplo iniciales"
+                >
+                  <RotateCcw size={14} />
+                  Restablecer Datos Demo
+                </button>
+                <button
+                  type="button"
+                  className="btn-accent-sm"
+                  onClick={handleGenerateBatch}
+                  title="Generar 15 tareas adicionales para medir en React Profiler"
+                >
+                  <Zap size={14} />
+                  Generar Lote Profiler (+15)
+                </button>
+              </div>
+            </div>
+
+            {/* Métricas Numéricas y Estadísticas */}
             <TaskStats tasks={state.items} />
+
+            {/* Gráficos Visuales Reactivos (Donut, Barras y Prioridad) */}
+            <TaskCharts tasks={state.items} />
 
             <div className="dashboard-grid">
               {/* Columna Izquierda: Formulario de Nueva Tarea */}
